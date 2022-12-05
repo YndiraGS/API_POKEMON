@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>jQuery</title>
+</head>
+
+<body>
+
+    <button id="importarJson" class="w3-btn w3-teal w3-round">Importar POKEMONES</button>
+    
+    <br/><br/>
+
+    <table  class="w3-table w3-striped" border="1px" id="pokemones">
+        <thead class="w3-green">
+            <th>NOMBRE POKEMOM</th>
+            <th>URL POKEMOM</th>
+            <th>IMG</th>
+
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script
+        src=" https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+
+    <script>
+        $(document).ready(() => {
+            $('#pokemones').hide();
+
+            $('#importarJson').click(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://pokeapi.co/api/v2/pokemon/',
+                    dataType: 'json'
+                }).done((data) => {
+                    let pokemones = data.results;
+
+                    $('#pokemones tbody').empty();
+
+                    $.each(pokemones, function(indice, pokemon){
+                        let fila = $('<tr>');
+                        fila.append($(`<td>${pokemon.name}</td>`));
+                        fila.append($(`<td>${pokemon.url}</td>`));
+                //        fila.append($(`<td>${pokemon.sprites.front_default}</td>`));
+
+                        $('#pokemones tbody').append(fila);
+                    });
+
+                    $('#pokemones').show();
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
